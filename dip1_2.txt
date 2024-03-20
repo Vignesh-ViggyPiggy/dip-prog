@@ -1,0 +1,123 @@
+import cv2
+import numpy as np
+from matplotlib import pyplot as plt
+# Load the image
+image = cv2.imread('path_to_your_image.jpg')
+# Display the original image
+plt.subplot(2, 3, 1)
+plt.title('Original Image')
+plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+plt.axis('off')
+# Convert the image to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+plt.subplot(2, 3, 2)
+plt.title('Grayscale Image')
+plt.imshow(gray_image, cmap='gray')
+plt.axis('off')
+# Split the image into red, green, and blue channels
+b, g, r = cv2.split(image)
+plt.subplot(2, 3, 3)
+plt.title('Red Channel')
+plt.imshow(r, cmap='gray')
+plt.axis('off')
+plt.subplot(2, 3, 4)
+plt.title('Green Channel')
+plt.imshow(g, cmap='gray')
+plt.axis('off')
+plt.subplot(2, 3, 5)
+plt.title('Blue Channel')
+plt.imshow(b, cmap='gray')
+plt.axis('off')
+# Perform 1D convolution
+kernel_1d = np.array([1, 0, -1])
+conv_1d_image = cv2.filter2D(gray_image, -1, kernel_1d)
+plt.subplot(2, 3, 6)
+plt.title('1D Convolution')
+plt.imshow(conv_1d_image, cmap='gray')
+plt.axis('off')
+# Perform 2D convolution
+kernel_2d = np.array([[1, 1, 1],
+ [1, -8, 1],
+ [1, 1, 1]])
+conv_2d_image = cv2.filter2D(gray_image, -1, kernel_2d)
+plt.subplot(2, 3, 6)
+plt.title('2D Convolution')
+plt.imshow(conv_2d_image, cmap='gray')
+plt.axis('off')
+plt.tight_layout()
+plt.show()
+
+
+
+
+import cv2
+import numpy as np
+from google.colab.patches import cv2_imshow
+# Load the image
+image = cv2.imread('path_to_your_image.jpg')
+if image is None:
+ print("Error: Image not loaded. Please check the file path.")
+else:
+ # Display the original image
+ cv2_imshow(image)
+ # Create a matrix of ones with the same size as the image
+ ones = np.ones(image.shape, dtype='uint8')
+ # Perform arithmetic operations
+ added_image = cv2.add(image, 50) # Add 50 to all pixel values
+ subtracted_image = cv2.subtract(image, 50) # Subtract 50 from all pixel values
+ multiplied_image = cv2.multiply(image, 2) # Multiply all pixel values by 2
+ divided_image = cv2.divide(image, 2) # Divide all pixel values by 2
+ # Display the images after arithmetic operations
+ cv2_imshow(added_image)
+ cv2_imshow(subtracted_image)
+ cv2_imshow(multiplied_image)
+ cv2_imshow(divided_image)
+ # Perform logical operations
+ bitwise_and = cv2.bitwise_and(image, ones * 200) # Bitwise AND with a mask of 200
+ bitwise_or = cv2.bitwise_or(image, ones * 100) # Bitwise OR with a mask of 100
+ bitwise_xor = cv2.bitwise_xor(image, ones * 50) # Bitwise XOR with a mask of 50
+ bitwise_not = cv2.bitwise_not(image) # Bitwise NOT
+ # Display the images after logical operations
+ cv2_imshow(bitwise_and)
+ cv2_imshow(bitwise_or)
+ cv2_imshow(bitwise_xor)
+ cv2_imshow(bitwise_not)
+
+
+
+import cv2
+import numpy as np
+
+# Load two images
+image1 = cv2.imread('C:/Users/Swetha/Downloads/flower1.png')
+image2 = cv2.imread('C:/Users/Swetha/Downloads/parrot.jpg')
+
+# Resize images to the same size if necessary
+if image1.shape != image2.shape:
+    image2 = cv2.resize(image2, (image1.shape[1], image1.shape[0]))
+
+# Perform arithmetic operations
+addition = cv2.add(image1, image2)  # Element-wise addition
+subtraction = cv2.subtract(image1, image2)  # Element-wise subtraction
+
+# Perform logical operations
+bitwise_and = cv2.bitwise_and(image1, image2)  # Bitwise AND
+bitwise_or = cv2.bitwise_or(image1, image2)    # Bitwise OR
+bitwise_xor = cv2.bitwise_xor(image1, image2)  # Bitwise XOR
+bitwise_not_image1 = cv2.bitwise_not(image1)   # Bitwise NOT on image1
+bitwise_not_image2 = cv2.bitwise_not(image2)   # Bitwise NOT on image2
+
+# Display the original images and the results
+cv2.imshow('Image 1', image1)
+cv2.imshow('Image 2', image2)
+cv2.imshow('Addition', addition)
+cv2.imshow('Subtraction', subtraction)
+cv2.imshow('Bitwise AND', bitwise_and)
+cv2.imshow('Bitwise OR', bitwise_or)
+cv2.imshow('Bitwise XOR', bitwise_xor)
+cv2.imshow('Bitwise NOT Image 1', bitwise_not_image1)
+cv2.imshow('Bitwise NOT Image 2', bitwise_not_image2)
+
+# Wait for a key press and close all windows
+cv2.waitKey(0)
+cv2.destroyAllWindows()
